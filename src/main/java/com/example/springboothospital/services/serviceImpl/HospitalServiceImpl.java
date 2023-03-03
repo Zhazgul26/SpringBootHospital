@@ -1,8 +1,8 @@
 package com.example.springboothospital.services.serviceImpl;
 
+import com.example.springboothospital.entity.Hospital;
 import com.example.springboothospital.exception.BadRequestExseption;
-import com.example.springboothospital.models.Hospital;
-import com.example.springboothospital.repository.HospitalRepo;
+import com.example.springboothospital.repository.HospitalRepository;
 import com.example.springboothospital.services.HospitalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class HospitalServiceImpl implements HospitalService {
-    private final HospitalRepo hospitalRepo;
+    private final HospitalRepository hospitalRepository;
     @Override
     public List<Hospital> getAll() {
-        return hospitalRepo.findAll();
+        return hospitalRepository.findAll();
     }
 
     @Override
@@ -31,7 +31,7 @@ public class HospitalServiceImpl implements HospitalService {
             }
         }else {
                 try {
-                    hospitalRepo.save(hospital);
+                    hospitalRepository.save(hospital);
             }catch (RuntimeException e){
                     System.out.println(e.getMessage());
                 }
@@ -41,12 +41,12 @@ public class HospitalServiceImpl implements HospitalService {
 
     @Override
     public Hospital findById(Long id) {
-        return hospitalRepo.findById(id).orElseThrow();
+        return hospitalRepository.findById(id).orElseThrow();
     }
 
     @Override
     public void deleteById(Long id) {
-        hospitalRepo.deleteById(id);
+        hospitalRepository.deleteById(id);
 
     }
 
@@ -56,6 +56,6 @@ public class HospitalServiceImpl implements HospitalService {
         oldHospital.setImage(newHospital.getImage());
         oldHospital.setName(newHospital.getName());
         oldHospital.setAddress(newHospital.getAddress());
-        hospitalRepo.save(oldHospital);
+        hospitalRepository.save(oldHospital);
     }
 }

@@ -1,15 +1,15 @@
-package com.example.springboothospital.api;
+package com.example.springboothospital.controller;
 
 
-import com.example.springboothospital.models.Patient;
-import com.example.springboothospital.models.enums.Gender;
+import com.example.springboothospital.entity.Patient;
+import com.example.springboothospital.entity.enums.Gender;
 import com.example.springboothospital.services.PatientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/{id}/patients")
@@ -19,8 +19,7 @@ public class PatientController {
 
     @GetMapping
     String getAllDepartments(@PathVariable("id") Long id,Model model){
-       List<Patient> patients = patientService.getAllPatient(id);
-        model.addAttribute("patients",patients);
+        model.addAttribute("patients",patientService.getAllPatient(id));
         model.addAttribute("hospitalId",id);
         return "patient/patients";
     }
@@ -33,7 +32,11 @@ public class PatientController {
         return "/patient/savePatient";
     }
     @PostMapping("/new")
-    String create(@ModelAttribute("patient")Patient patient, @PathVariable("id") Long id) throws Exception {
+    String create(@ModelAttribute("patient")@Valid Patient patient, BindingResult bindingResult, @PathVariable("id") Long id) throws Exception {
+        if(bindingResult.hasErrors()){
+            return "/patient/savePatient";
+
+        }
           patientService.savePatient(id,patient);
         return "redirect:/{id}/patients";
     }
@@ -45,11 +48,15 @@ public class PatientController {
     }
 
     @PostMapping("/{patientId}/up")
-    String updatePatient(@PathVariable("patientId") Long patientId, @ModelAttribute("patient") Patient patient) {
+    String updatePatient(@PathVariable("patientId") Long patientId, @ModelAttribute("patient") @Valid Patient patient,BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "patient/updatePatient";
+
+        }
        patientService.updatePatient(patientId,patient);
         return "redirect:/{id}/patients";
     }
-    @DeleteMapping("{patientId}/delete")
+    @GetMapping("{patientId}/delete")
     String delete (@PathVariable("patientId") Long patientId) {
         patientService.delete(patientId);
         return "redirect:/{id}/patients";

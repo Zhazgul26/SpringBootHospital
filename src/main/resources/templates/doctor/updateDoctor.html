@@ -15,7 +15,7 @@
         html,
         body {
             height: 100%;
-            background-color: #152733;
+            background-color: #d3c0e7;
             overflow: hidden;
         }
         .form-holder {
@@ -161,16 +161,24 @@
                     <form class="requires-validation" th:action="@{/{id}/doctors/{doctorId}/up(id=${hospitalId},doctorId=${doctor.id})}" th:object="${doctor}" method="post">
                         <input type="hidden" th:field="*{id}">
                         <div class="col-md-12">
-                            <input class="form-control" type="text" name="first name" placeholder="First Name" th:field="*{firsName}" id="input- first name">
+                            <input class="form-control" type="text" name="first name" placeholder="First Name" th:field="*{firstName}" id="input- first name">
+                            <div style="color: red" th:if ="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"> Name error </div>
+
                         </div>
                         <div class="col-md-12">
                             <input class="form-control" type="text" name=" last name" placeholder="Last Name" th:field="*{lastName}" id="input-last name">
+                            <div style="color: red" th:if ="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"> Name error </div>
+
                         </div>
                         <div class="col-md-12">
                             <input class="form-control" type="text" name="email" placeholder="email" th:field="*{email}" id="input-email">
+                            <div style="color: red" th:if ="${#fields.hasErrors('email')}" th:errors="*{email}"> Name error </div>
+
                         </div>
                         <div class="col-md-12">
                             <input class="form-control" type="text" name="position" placeholder="position" th:field="*{position}" id="input-position">
+                            <div style="color: red" th:if ="${#fields.hasErrors('position')}" th:errors="*{position}"> Name error </div>
+
                         </div>
 
 

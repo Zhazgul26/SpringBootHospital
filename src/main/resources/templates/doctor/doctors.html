@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!DOCTYPE html>
-<html lang="en"    xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Patients</title>
     <style>
         body{
-            background-image: url("https://c8.alamy.com/comp/FF81WN/a-busy-out-patient-department-opd-at-st-francis-hospital-ifakara-tanzania-FF81WN.jpg");
+            background-image: url("https://findado.osteopathic.org/wp-content/uploads/2021/08/GettyImages-1214206519-768x460.jpg");
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -35,7 +35,7 @@
             <th>Position</th>
             <th>email</th>
             <th>Hospital</th>
-            <th>Assign Department</th>.
+            <th>Assign Department</th>
             <th>Update</th>
             <th>Delete</th>
         </tr>
@@ -43,17 +43,18 @@
         <tbody class="table-success">
         <tr th:each="doctor : ${doctors}">
             <td th:text="${doctor.id}"></td>
-            <td th:text="${doctor.firsName}"></td>
+            <td th:text="${doctor.firstName}"></td>
             <td th:text="${doctor.lastName}"></td>
             <td th:text="${doctor.position}"></td>
             <td th:text="${doctor.email}"></td>
             <td th:text="${doctor.hospital.name}"></td>
+            <br>
             <td>
             <td>
                 <a th:href="@{/{id}/doctors/{doctorId}/departments(id=${hospitalId}, doctorId=${doctor.id})}">
                     <input type="submit" class="btn btn-outline-primary" th:value="  Departments  ">
                 </a>
-           </td>
+            </td>
             </td>
             <td>
                 <a th:href="@{/{id}/doctors/{doctorId}/edit(id=${hospitalId},doctorId=${doctor.id})}">
@@ -61,12 +62,12 @@
                 </a>
             </td>
             <td>
-            <a>
-            <form th:method="DELETE"
-                  th:action="@{/{id}/doctors/{doctorId}/delete(id=${hospitalId}, doctorId=${doctor.id})}">
-                <input type="submit" class="btn btn-outline-primary" th:value="  Delete  "></input>
-            </form>
-            </a>
+                <a>
+                    <form th:method="DELETE"
+                          th:action="@{/{id}/doctors/{doctorId}/delete(id=${hospitalId}, doctorId=${doctor.id})}">
+                        <input type="submit" class="btn btn-outline-primary" th:value="  Delete  "></input>
+                    </form>
+                </a>
             </td>
 
         </tr>
@@ -75,4 +76,5 @@
 </div>
 
 </body>
+
 </html>

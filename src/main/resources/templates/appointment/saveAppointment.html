@@ -18,16 +18,20 @@
         <div class="form-group">
             <label for="nameInput" class="form-label">Date</label>
             <input type="date" th:field="*{date}" id="nameInput" class="form-control form-control-lg">
+            <div style="color: red" th:if ="${#fields.hasErrors('date')}" th:errors="*{date}"> Name error </div>
+
         </div>
         <div class="form-group">
             <label for="patient">Patient</label>
             <select class="form-control" id="patient" name="patientId" required>
                 <option  th:each="patient : ${patients}" th:value="${patient.id}" th:text="${patient.firstName}"></option>
+
             </select>
             <div class="form-group">
                 <label for="doctor">Doctor</label>
                 <select class="form-control" id="doctor" name="doctorId" required>
                     <option  th:each="doctor : ${doctors}" th:value="${doctor.id}" th:text="${doctor.firstName}"></option>
+
                 </select>
             </div>
         </div>
@@ -35,6 +39,7 @@
             <label for="department">Department</label>
             <select class="form-control" id="department" name="departmentId" required>
                 <option  th:each="department : ${departments}" th:value="${department.id}" th:text="${department.name}"></option>
+
             </select>
         </div>
         <div>

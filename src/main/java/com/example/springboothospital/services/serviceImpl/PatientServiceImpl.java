@@ -1,11 +1,11 @@
 package com.example.springboothospital.services.serviceImpl;
 
-import com.example.springboothospital.models.Appointment;
-import com.example.springboothospital.models.Hospital;
-import com.example.springboothospital.models.Patient;
-import com.example.springboothospital.repository.AppointmentRepo;
-import com.example.springboothospital.repository.HospitalRepo;
-import com.example.springboothospital.repository.PatientRepo;
+import com.example.springboothospital.entity.Appointment;
+import com.example.springboothospital.entity.Hospital;
+import com.example.springboothospital.entity.Patient;
+import com.example.springboothospital.repository.AppointmentRepository;
+import com.example.springboothospital.repository.HospitalRepository;
+import com.example.springboothospital.repository.PatientRepository;
 import com.example.springboothospital.services.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,28 +18,28 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class PatientServiceImpl implements PatientService {
-    private final PatientRepo patientRepo;
-    private final HospitalRepo hospitalRepo;
-    private final AppointmentRepo appointmentRepo;
+    private final PatientRepository patientRepository;
+    private final HospitalRepository hospitalRepository;
+    private final AppointmentRepository appointmentRepository;
 
     @Override
     public List<Patient> getAllPatient(Long id) {
-        return patientRepo.getAllByHospitalId(id);
+        return patientRepository.getAllByHospitalId(id);
     }
 
     @Override
     public void savePatient(Long hospitalId,Patient patient) {
-        Hospital hospital = hospitalRepo.findById(hospitalId).orElseThrow();
+        Hospital hospital = hospitalRepository.findById(hospitalId).orElseThrow();
         hospital.addPatient(patient);
         patient.setHospital(hospital);
-        patientRepo.save(patient);
+        patientRepository.save(patient);
 
 
     }
 
     @Override
     public Patient finById(Long id) {
-     return patientRepo.findById(id).orElseThrow();
+     return patientRepository.findById(id).orElseThrow();
     }
 
     @Override
@@ -51,19 +51,19 @@ public class PatientServiceImpl implements PatientService {
         appointments.forEach(appointment -> appointment.getDoctor().setAppointments(null));
         hospital.getAppointments().removeAll(appointments);
         for (int i = 0; i < appointments.size(); i++) {
-            appointmentRepo.deleteById(appointments.get(i).getId());
+            appointmentRepository.deleteById(appointments.get(i).getId());
         }
-         patientRepo.deleteById(id);
+         patientRepository.deleteById(id);
     }
 
     @Override
     public Patient updatePatient(Long id,Patient patient) {
-        Patient oldPatient = patientRepo.findById(id).orElseThrow();
+        Patient oldPatient = patientRepository.findById(id).orElseThrow();
         oldPatient.setFirstName(patient.getFirstName());
         oldPatient.setLastName(patient.getLastName());
         oldPatient.setGender(patient.getGender());
         oldPatient.setEmail(patient.getEmail());
         oldPatient.setPhoneNumber(patient.getPhoneNumber());
-        return patientRepo.save(oldPatient);
+        return patientRepository.save(oldPatient);
     }
 }

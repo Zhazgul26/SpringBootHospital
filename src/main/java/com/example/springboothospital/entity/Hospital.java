@@ -1,6 +1,8 @@
-package com.example.springboothospital.models;
+package com.example.springboothospital.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +24,11 @@ public class Hospital {
     @GeneratedValue(strategy = SEQUENCE,generator = "hospital_id_gen")
     @SequenceGenerator(name = "hospital_id_gen", sequenceName = "hospital_id_seq", allocationSize = 1)
     private Long id;
+    @NotEmpty(message = " Name should not be empty")
+    @Size(min = 2, max = 50, message = " Name should be between 2 and 50 characters")
     private String name;
+    @NotEmpty(message = " Address should not be empty")
+    @Size(min = 3, max = 50, message = " Address should be between 2 and 50 characters")
     private String address;
 
     @OneToMany(mappedBy = "hospital",cascade = {ALL})

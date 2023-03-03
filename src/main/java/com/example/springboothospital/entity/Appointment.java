@@ -1,6 +1,8 @@
-package com.example.springboothospital.models;
+package com.example.springboothospital.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,7 +11,6 @@ import java.time.LocalDate;
 
 import static jakarta.persistence.CascadeType.*;
 import static jakarta.persistence.GenerationType.SEQUENCE;
-
 
 @Entity
 @Getter
@@ -21,7 +22,7 @@ public class Appointment {
     @GeneratedValue(strategy = SEQUENCE, generator = "appointment_id_gen")
     @SequenceGenerator(name = "appointment_id_gen", sequenceName = "appointment_id_seq", allocationSize = 1)
     private Long id;
-
+   @Future (message = "You have chosen ")
     private LocalDate date;
 
 

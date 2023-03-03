@@ -1,10 +1,12 @@
-package com.example.springboothospital.api;
+package com.example.springboothospital.controller;
 
-import com.example.springboothospital.models.Hospital;
+import com.example.springboothospital.entity.Hospital;
 import com.example.springboothospital.services.HospitalService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +25,11 @@ public class HospitalController {
     }
 
     @PostMapping("/new")
-    String create(@ModelAttribute("hospital") Hospital hospital) {
+    String create(@ModelAttribute("hospital")@Valid Hospital hospital, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "hospital/savePage";
+
+        }
         hospitalService.save(hospital);
         return "redirect:/hospitals";
     }
@@ -34,7 +40,7 @@ public class HospitalController {
         return "hospital/savePage";
     }
 
-    @DeleteMapping("/{id}/delete")
+    @GetMapping("/{id}/delete")
     String deleteById(@PathVariable("id") Long id) {
         hospitalService.deleteById(id);
         return "redirect:/hospitals";
@@ -47,7 +53,11 @@ public class HospitalController {
     }
 
     @PostMapping("/{id}/up")
-    String updateHospital(@PathVariable("id") Long id, @ModelAttribute("hospital") Hospital hospital) {
+    String updateHospital(@PathVariable("id") Long id, @ModelAttribute("hospital") @Valid Hospital hospital,BindingResult bindingResult ) {
+        if(bindingResult.hasErrors()){
+            return "hospital/updateHospital";
+
+        }
         hospitalService.updateHospital(id, hospital);
         return "redirect:/hospitals";
     }

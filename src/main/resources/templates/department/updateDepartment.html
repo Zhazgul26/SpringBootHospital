@@ -15,7 +15,7 @@
         html,
         body {
             height: 100%;
-            background-color: #152733;
+            background-color: #d3c0e7;
             overflow: hidden;
         }
         .form-holder {
@@ -162,6 +162,8 @@
                         <input type="hidden" th:field="*{id}">
                         <div class="col-md-12">
                             <input class="form-control" type="text" name="name" placeholder="Name" th:field="*{name}" id="input-name">
+                            <div style="color: red" th:if ="${#fields.hasErrors('name')}" th:errors="*{name}"> Name error </div>
+
                         </div>
 
                         <div class="form-button mt-3">

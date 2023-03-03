@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <!DOCTYPE html>
-<html lang="en"    xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <style>
 
         body{
-            background-image: url("https://www.shutterstock.com/image-photo/surgeon-female-doctor-walk-through-260nw-1189798327.jpg");
+            background-image: url("https://www.alert-software.com/hubfs/it%20department%20hospital.png");
             background-repeat: no-repeat;
             background-size: cover;
         }
@@ -25,7 +25,6 @@
         <th>Id</th>
         <th>Department Name</th>
         <th>Hospital</th>
-        <th>Appointment</th>
 
     </tr>
     </thead>
@@ -36,15 +35,19 @@
         <td th:text="${deparment.hospital.name}"></td>
 
 
+
+
         <td>
             <a>
                 <form th:method="DELETE"
                       th:action="@{/{id}/departments/{departmentId}/delete(id=${hospitalId}, departmentId=${deparment.id})}">
                     <input type="submit" class="btn btn-outline-primary" th:value="  Delete  "></input>
                 </form>
-            </a>
-            <a th:href="@{/{id}/departments/{departmentId}/edit(id=${hospitalId},departmentId=${deparment.id})}">
-                <input type="submit" class="btn btn-outline-primary"  th:value="  Update  ">
+            </a>  <a>
+                <form th:method="GET"
+                      th:action="@{/{id}/departments/{departmentId}/edit(id=${hospitalId}, departmentId=${deparment.id})}">
+                    <input type="submit" class="btn btn-outline-primary" th:value=" Update"></input>
+                </form>
             </a>
     </tr>
     <a th:href="@{/{id}/departments/saveDepartment (id=${hospitalId})}">

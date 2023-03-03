@@ -1,12 +1,14 @@
-package com.example.springboothospital.api;
+package com.example.springboothospital.controller;
 
-import com.example.springboothospital.models.Department;
-import com.example.springboothospital.models.Doctor;
+
+import com.example.springboothospital.entity.Doctor;
 import com.example.springboothospital.services.DepartmentService;
 import com.example.springboothospital.services.DoctorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -17,7 +19,7 @@ public class DoctorController {
     private final DepartmentService departmentService;
 
     @GetMapping
-    String getAllDepartments(@PathVariable("id") Long id, Model model,@ModelAttribute("department") Department department){
+    String getAllDepartments(@PathVariable("id") Long id, Model model){
         model.addAttribute("doctors",doctorService.getAll(id));
         model.addAttribute("departments",departmentService.getAll(id));
         model.addAttribute("hospitalId",id);
@@ -30,7 +32,10 @@ public class DoctorController {
         return "/doctor/saveDoctor";
     }
     @PostMapping("/new")
-    String create(@ModelAttribute("doctor")Doctor doctor, @PathVariable("id") Long id) {
+    String create(@ModelAttribute("doctor")@Valid Doctor doctor, BindingResult bindingResult, @PathVariable("id") Long id) {
+        if(bindingResult.hasErrors()){
+            return "/doctor/saveDoctor";
+        }
         doctorService.save(id,doctor);
         return "redirect:/{id}/doctors";
     }
@@ -39,7 +44,7 @@ public class DoctorController {
                        @PathVariable("doctorId")Long doctorId,
                        Model model){
         model.addAttribute("doctor", doctorService.findById(doctorId));
-        model.addAttribute("departments", doctorService.getAllDepartmentDoctorById(doctorId));
+        model.addAttribute("departments", departmentService.getAllDepartmentByDoctorId(doctorId));
         model.addAttribute("doctors",doctorService.getAll(id));
         return "doctor/departments";
     }
@@ -50,12 +55,11 @@ public class DoctorController {
         return "doctor/assignToDepartment";
     }
     @PostMapping("/{doctorId}/saveAssignDepartment")
-    String saveAssignDepartment(@PathVariable("doctorId")Long doctorId,
-                        @ModelAttribute("doctor") Doctor doctor){
-//        departmentService.assignDoctor(doctorId, doctor);
+    String saveAssignDepartment(@PathVariable("doctorId")Long doctorId, @ModelAttribute("doctor") Doctor doctor){
+        doctorService.assignDoctor(doctorId,doctor);
         return "redirect:/{id}/doctors";
     }
-    @DeleteMapping("{doctorId}/delete")
+    @GetMapping("{doctorId}/delete")
     String deleteById(@PathVariable("doctorId") Long doctorId, @PathVariable String id) {
         doctorService.delete(doctorId);
         return "redirect:/{id}/doctors";
@@ -69,7 +73,10 @@ public class DoctorController {
     }
 
     @PostMapping("/{doctorId}/up")
-    String updateDoctor(@PathVariable("doctorId") Long doctorId, @ModelAttribute("doctor") Doctor doctor) {
+    String updateDoctor(@PathVariable("doctorId") Long doctorId, @ModelAttribute("doctor") @Valid  Doctor doctor,BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "doctor/updateDoctor";
+        }
         doctorService.update(doctorId,doctor);
         return "redirect:/{id}/doctors";
     }

@@ -1,5 +1,5 @@
 package com.example.springboothospital.services;
-import com.example.springboothospital.models.Appointment;
+import com.example.springboothospital.entity.Appointment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

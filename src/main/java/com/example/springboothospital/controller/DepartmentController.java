@@ -1,10 +1,11 @@
-package com.example.springboothospital.api;
-
-import com.example.springboothospital.models.Department;
+package com.example.springboothospital.controller;
+import com.example.springboothospital.entity.Department;
 import com.example.springboothospital.services.DepartmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,12 +33,16 @@ public class DepartmentController {
     }
 
     @PostMapping("/new")
-    String create(@ModelAttribute("department") Department department, @PathVariable("id") Long id) throws Exception {
+    String create(@ModelAttribute("department") @Valid Department department, BindingResult bindingResult,
+                  @PathVariable("id") Long id) throws Exception {
+        if(bindingResult.hasErrors()) {
+            return "department/saveDepartment";
+        }
         departmentService.save(id, department);
         return "redirect:/{id}/departments";
     }
 
-    @DeleteMapping("{departmentId}/delete")
+    @GetMapping("{departmentId}/delete")
     String delete (@PathVariable("departmentId") Long departmentId) {
         departmentService.deleteById(departmentId);
         return "redirect:/{id}/departments";
@@ -50,7 +55,11 @@ public class DepartmentController {
     }
 
     @PostMapping("/{departmentId}/up")
-    String updateDepartment(@PathVariable("departmentId") Long departmentId, @ModelAttribute("department") Department department) {
+    String updateDepartment(@PathVariable("departmentId") Long departmentId, @ModelAttribute("department")
+    @Valid Department department, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "department/updateDepartment";
+        }
         departmentService.update(departmentId,department);
         return "redirect:/{id}/departments";
     }
