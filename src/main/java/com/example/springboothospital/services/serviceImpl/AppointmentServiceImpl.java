@@ -58,7 +58,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment update(Long hospitalId, Long patientId, Long doctorId, Long departmentId, Appointment appointment,Long appointmentId) {
+    public Appointment update(Long hospitalId, Long patientId,
+                              Long doctorId, Long departmentId, Appointment appointment,Long appointmentId) {
+
         appointment.setPatient(patientRepository.findById(patientId).orElseThrow());
         appointment.setDoctor(doctorRepository.findById(doctorId).orElseThrow());
         appointment.setDepartment(departmentRepository.findById(departmentId).orElseThrow());
@@ -67,8 +69,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         oldAppointment.setPatient(appointment.getPatient());
         oldAppointment.setDoctor(appointment.getDoctor());
+
         oldAppointment.setDepartment(appointment.getDepartment());
         oldAppointment.setDate(appointment.getDate());
+
         return appointmentRepository.save(oldAppointment);
         }
 }

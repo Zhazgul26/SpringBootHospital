@@ -3,6 +3,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/hospital
     username: postgres
     password: 1234
+#  security:
+#    user:
+#      name: Zhazgul
+#      password: 2604
+#      roles: ADMIN
 
   jpa:
     hibernate:
@@ -11,3 +16,4 @@ spring:
 
 server:
   port: 9090
+

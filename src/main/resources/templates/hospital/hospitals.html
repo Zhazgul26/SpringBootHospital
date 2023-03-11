@@ -78,7 +78,7 @@
                     </a>
                 </div>
                 <div>
-                    <form th:method="DELETE" th:action="@{/hospitals/{id}/delete(id=${hospital.getId()})}">
+                    <form th:method="GET" th:action="@{/hospitals/{id}/delete(id=${hospital.getId()})}">
                         <input type="submit" class="btn btn-outline-primary"  th:value="  Delete  "/>
                     </form>
                 </div>

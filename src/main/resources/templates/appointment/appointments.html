@@ -43,7 +43,7 @@
                 <input type="submit" class="btn btn-outline-primary"  th:value="  Update  ">
             </a>
             <a>
-                <form th:method="DELETE"
+                <form th:method="GET"
                       th:action="@{/{id}/appointments/{appointmentId}/delete(id=${hospitalId}, appointmentId=${appointment.id})}">
                     <input type="submit" class="btn btn-outline-primary" th:value="  Delete  "></input>
                 </form>
